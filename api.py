@@ -43,7 +43,7 @@ class SWGOHAPI():
 
     def _get_access_token(self):
         # Token already exists, no need to get another one
-        if self.time_left_token > 0:    
+        if self.time_left_token > time.time():    
             return self.token
         
         # Formulate the http request
@@ -60,7 +60,7 @@ class SWGOHAPI():
         # Decode response and grab the token to use for further requests to the API
         response = json.loads(endcoded_response.content.decode('utf-8'))
         self.token = "Bearer " + response['access_token']
-        self.time_left_token = time.time() + response['expires_in'] - 30
+        self.time_left_token = time.time() + response['expires_in']
         return self.token
 
     def _get_api(self, url, parameters):
@@ -114,10 +114,15 @@ class SWGOHAPI():
         parameters = {'language': 'eng_us', 'enums': True}
         return self._get_api(campaign_url, parameters)
 
+"""
 if __name__ == '__main__':
+
     creds = open("credentials.json", "r")
     credentials = json.loads(creds.read())
     api = SWGOHAPI(credentials)
+    print(f'Time: {time.time()}')
+    print(f'Token Time: {api.time_left_token}') 
+
     ally_code =  [413422952, 548343166, 894763269, 422562814] #413-422-95
     #spencer_code = [548343166]
     #cody_code = [894763269]\
@@ -125,7 +130,7 @@ if __name__ == '__main__':
     f = open("player.json", "w")
     f.write(json.dumps(api.get_players(ally_code), indent=2))
     f.close()
-    """
+
     f = open("guild.json", "w")
     f.write(json.dumps(api.get_guilds(ally_code), indent=2))
     f.close()
@@ -148,4 +153,3 @@ if __name__ == '__main__':
     f.write(json.dumps(api.get_campaign(), indent=2))
     f.close()
     """
-    
