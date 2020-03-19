@@ -1,7 +1,7 @@
 import json
 
 import api
-import json_parsing
+import json_parsing as jp
 
 class SWGOHParser():
     setup = 0
@@ -35,19 +35,23 @@ class SWGOHParser():
    
     def get_player_characters(self, allycodes):
         self._setup(allycodes)
-        player_dict = json_parsing.get_player_characters(allycodes)
+        player_dict = jp.get_player_characters(allycodes)
         player_list = []
         for player in player_dict:
             message = f'{player["player"]}\n'
             player_list.append(message)
         return player_list
+    
+    def get_legendary_characters(self, allycode):
+        self._setup(allycode)
+        return jp.get_legendary_characters(allycode)
         
-
+"""
 if __name__ == '__main__':
     swgoh = SWGOHParser()
     print(swgoh.get_player_characters([894763269, 413422952, 548343166, 422562814]))
 
-"""
+
 creds = open("credentials.json", "r")
 credentials = json.loads(creds.read())
 swgoh = api.SWGOHAPI(credentials)
