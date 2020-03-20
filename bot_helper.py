@@ -8,6 +8,9 @@ sp = swgoh.SWGOHParser()
 
 allycode_error = 'Error: Ally code must be a number, do not add \'-\' in your ally codes.'
 
+#def check_allycode(allycode):
+
+
 def register(author, content):
     json_file = "json/allycodes.json"
     f = open(json_file, "r")
@@ -36,7 +39,7 @@ def legendaries(author, content):
         embed = discord.Embed(  title=title, 
                         type="rich",
                         color=color,
-                        datetime=datetime.datetime()
+                        #datetime=datetime.datetime()
                     )
         legends = ""
         for legendary in sp.get_legendary_characters(allycode):
